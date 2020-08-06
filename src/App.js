@@ -1,36 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import { Container, Button } from 'react-bootstrap'
 
-import ContactsModal from './components/ContactsModal'
-import CustomScrollbars from './components/CustomScrollbars'
-
+import Contacts from './components/Contacts'
 import styles from "./styles/Modal.module.css"
 
-const ModalA = () => {
-  const [contacts, setContacts] = useState(['mack', 'jack', 'collin', 'garett', 'mack', 'jack', 'collin', 'garett', 'mack', 'jack', 'collin', 'garett'])
-  const onReachedToBottom = () => {
-    setContacts([...contacts, 'ABC', '1231', 'sdfsdf', 'DFC', 'ABC', '1231', 'sdfsdf', 'DFC'])
-  }
-
-  return (
-    <ContactsModal title="All Contacts" isOpen={true}>
-      <CustomScrollbars onReachedBottom={onReachedToBottom} style={{height: 300}}>
-        {contacts.map( (contact, id) => (<p key={id}>{contact}</p>))}
-      </CustomScrollbars>
-    </ContactsModal>
-  )
-}
-
-const ModalB = () => {
-  return (
-    <ContactsModal title="US Contacts" isOpen={true}>
-      US Contacts will be here.
-    </ContactsModal>
-  )
-}
-
 const App = () => {
+  const COUNTRY_ALL = 0
+  const COUNTRY_US  = 226
+
   return (
     <BrowserRouter>
       <Container className="text-center">
@@ -46,8 +24,12 @@ const App = () => {
         </Link>
 
         <Switch>
-          <Route exact path="/all-contacts" component={ModalA} />
-          <Route exact path="/us-contacts" component={ModalB} />
+          <Route exact path="/all-contacts">
+            <Contacts title="All Contacts" countryId={COUNTRY_ALL} />
+          </Route>
+          <Route exact path="/us-contacts">
+            <Contacts title="US Contacts" countryId={COUNTRY_US} />
+          </Route>
         </Switch>
       </Container>
     </BrowserRouter>

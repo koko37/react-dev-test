@@ -24,7 +24,7 @@ const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, updateSearch, 
   const onFilterEvenChange = (e) => updateOnlyEvenFilter(e.target.checked)
 
   return (
-    <Modal show={openState} size="lg" centered onHide={handleCloseModal}>
+    <Modal show={openState} size="lg" backdrop="static" onHide={handleCloseModal} centered>
       <Modal.Header className="d-flex justify-content-between align-items-center">
         <Modal.Title>{title}</Modal.Title>
         <Form>
@@ -49,7 +49,11 @@ const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, updateSearch, 
               US Contacts
             </Button>
           </Link>
-          <Button variant="secondary" className="ml-2" onClick={handleCloseModal}>Close</Button>
+          <Link to="/">
+            <Button variant="secondary" className={styles.buttonC}>
+              Close
+            </Button>
+          </Link>
         </div>
         
       </Modal.Footer>
