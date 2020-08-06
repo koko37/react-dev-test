@@ -1,0 +1,15 @@
+.buttonA {
+  color: #46139f!important;
+  background-color: #fff;
+  margin-right: 0.5rem!important;
+}
+
+.buttonB {
+  color: #ff7f50!important;
+}
+
+.buttonC {
+  background-color: #fff;
+  border-color: #46139f;
+  margin-left: 0.5rem!important;
+}
