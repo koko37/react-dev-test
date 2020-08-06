@@ -23,7 +23,9 @@ export function fetchContacts(countryId, queryStr, pageNo) {
       page: pageNo,
     }
     const config = {
-      headers: { Authorization: `Bearer ${AUTH_TOKEN}`},
+      headers: { 
+        Authorization: `Bearer ${AUTH_TOKEN}`,
+      },
       params: params
     }
 

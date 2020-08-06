@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import { Container, Button } from 'react-bootstrap'
 
 import Contacts from './components/Contacts'
+import Contact from './components/Contact'
 import styles from "./styles/Modal.module.css"
+import { COUNTRY_ALL, COUNTRY_US} from './constants'
 
 const App = () => {
-  const COUNTRY_ALL = 0
-  const COUNTRY_US  = 226
+  const [showContacts, setShowContacts] = useState(true)
+  const [showContactDetail, setShowContactDetail] = useState(false)
+  const [activeContact, setActiveContact] = useState(null)
+  
+  const onSelectedActiveContact = (contact) => {
+    console.log("selected active contact")
+    setShowContacts(false)
+    setActiveContact(contact)
+    setShowContactDetail(true)
+  }
+
+  const onCloseDetail = () => {
+    setShowContactDetail(false)
+    setShowContacts(true)
+  }
 
   return (
     <BrowserRouter>
@@ -23,12 +38,14 @@ const App = () => {
           </Button>
         </Link>
 
+        {(activeContact !== null) && ( <Contact contact={activeContact} show={showContactDetail} onCloseContact={onCloseDetail} /> )}
+
         <Switch>
           <Route exact path="/all-contacts">
-            <Contacts title="All Contacts" countryId={COUNTRY_ALL} />
+            <Contacts title="All Contacts" countryId={COUNTRY_ALL} showModal={showContacts} selectActiveContact={onSelectedActiveContact} />
           </Route>
           <Route exact path="/us-contacts">
-            <Contacts title="US Contacts" countryId={COUNTRY_US} />
+            <Contacts title="US Contacts" countryId={COUNTRY_US}  showModal={showContacts} selectActiveContact={onSelectedActiveContact} />
           </Route>
         </Switch>
       </Container>

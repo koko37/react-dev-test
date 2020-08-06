@@ -22,9 +22,9 @@ const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, updateSearch, 
   const handleCloseModal = () => setOpenState(false)
   const onSearchKeyChange = (e) => updateSearch(e.target.value)
   const onFilterEvenChange = (e) => updateOnlyEvenFilter(e.target.checked)
-
+  
   return (
-    <Modal show={openState} size="lg" backdrop="static" onHide={handleCloseModal} centered>
+    <Modal show={isOpen} size="lg" backdrop="static" onHide={handleCloseModal} centered>
       <Modal.Header className="d-flex justify-content-between align-items-center">
         <Modal.Title>{title}</Modal.Title>
         <Form>
@@ -32,9 +32,7 @@ const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, updateSearch, 
         </Form>
       </Modal.Header>
       <Modal.Body>
-
         {children}
-
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
         <Form.Check type="checkbox" label="Only even" checked={isOnlyEven} onChange={onFilterEvenChange}/>
@@ -55,7 +53,6 @@ const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, updateSearch, 
             </Button>
           </Link>
         </div>
-        
       </Modal.Footer>
     </Modal>
   )
