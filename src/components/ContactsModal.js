@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Button, Modal, Form } from 'react-bootstrap'
+import { Button, Modal, Form, Spinner } from 'react-bootstrap'
 
 import { updateSearchKeyword, updateEvenFilter } from '../actions/filterActions'
 
@@ -17,25 +17,27 @@ const mapDispatchToProps = (dispatch) => ({
   updateOnlyEvenFilter: (b) => dispatch(updateEvenFilter(b))
 })
 
-const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, updateSearch, updateOnlyEvenFilter, children}) => {
-  const [openState, setOpenState] = useState(isOpen)
-  const handleCloseModal = () => setOpenState(false)
-  const onSearchKeyChange = (e) => updateSearch(e.target.value)
-  const onFilterEvenChange = (e) => updateOnlyEvenFilter(e.target.checked)
-  
+const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, isLoading=false, updateSearch, updateOnlyEvenFilter, children}) => {
   return (
-    <Modal show={isOpen} size="lg" backdrop="static" onHide={handleCloseModal} centered>
+    <Modal show={isOpen} size="lg" backdrop="static" onHide={null} centered>
       <Modal.Header className="d-flex justify-content-between align-items-center">
-        <Modal.Title>{title}</Modal.Title>
+        <Modal.Title>
+          {title}
+        </Modal.Title>
         <Form>
-          <Form.Control type="text" placeholder="Search contacts" value={searchKeyword} onChange={onSearchKeyChange}/>
+          <Form.Control type="text" placeholder="Search contacts" value={searchKeyword} onChange={(e) => updateSearch(e.target.value)}/>
         </Form>
       </Modal.Header>
       <Modal.Body>
         {children}
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
-        <Form.Check type="checkbox" label="Only even" checked={isOnlyEven} onChange={onFilterEvenChange}/>
+        <Form.Check type="checkbox" label="Only even" checked={isOnlyEven} onChange={(e) => updateOnlyEvenFilter(e.target.checked)}/>
+        {isLoading && (
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>)}
+        
         <div>
           <Link to="/all-contacts">
             <Button variant="primary" className={styles.buttonA}>

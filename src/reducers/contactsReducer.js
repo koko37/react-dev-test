@@ -1,7 +1,7 @@
 import * as constants from '../constants'
 
 export const initialState = {
-  data: constants.FAKE_CONTACTS /* TEST DATA */,
+  data: [] /* constants.FAKE_CONTACTS TEST DATA */,
   loading: false,
   hasErrors: false,
 }

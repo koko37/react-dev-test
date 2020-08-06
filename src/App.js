@@ -13,7 +13,6 @@ const App = () => {
   const [activeContact, setActiveContact] = useState(null)
   
   const onSelectedActiveContact = (contact) => {
-    console.log("selected active contact")
     setShowContacts(false)
     setActiveContact(contact)
     setShowContactDetail(true)
@@ -38,14 +37,14 @@ const App = () => {
           </Button>
         </Link>
 
-        {(activeContact !== null) && ( <Contact contact={activeContact} show={showContactDetail} onCloseContact={onCloseDetail} /> )}
+        {(activeContact !== null) && ( <Contact contact={activeContact} showContactDetail={showContactDetail} onCloseContact={onCloseDetail} /> )}
 
         <Switch>
           <Route exact path="/all-contacts">
-            <Contacts title="All Contacts" countryId={COUNTRY_ALL} showModal={showContacts} selectActiveContact={onSelectedActiveContact} />
+            <Contacts title="All Contacts" countryId={COUNTRY_ALL} showContacts={showContacts} selectActiveContact={onSelectedActiveContact} />
           </Route>
           <Route exact path="/us-contacts">
-            <Contacts title="US Contacts" countryId={COUNTRY_US}  showModal={showContacts} selectActiveContact={onSelectedActiveContact} />
+            <Contacts title="US Contacts" countryId={COUNTRY_US}  showContacts={showContacts} selectActiveContact={onSelectedActiveContact} />
           </Route>
         </Switch>
       </Container>

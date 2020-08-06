@@ -16,12 +16,15 @@ export const resetContacts = () => ({type: RESET_CONTACTS})
 export function fetchContacts(countryId, queryStr, pageNo) {
   return async dispatch => {
     if(pageNo === 1) dispatch(resetContacts())
+
     dispatch(getContacts())
 
     const params = {
       companyId: DEFAULT_COMPANY_ID,
       page: pageNo,
     }
+    if(countryId !== 0) params['countryId'] = countryId
+    if(queryStr.length > 0) params['query'] = queryStr
     const config = {
       headers: { 
         Authorization: `Bearer ${AUTH_TOKEN}`,
@@ -29,10 +32,15 @@ export function fetchContacts(countryId, queryStr, pageNo) {
       params: params
     }
 
-    console.log(config);
     try {
-      const response = await axios.get('https://api.dev.pastorsline.com/api/contacts.json', config)
-      console.log(response.json())
+      console.log("getting :", JSON.stringify(params))
+      const resp = await axios.get('https://api.dev.pastorsline.com/api/contacts.json', config)
+      console.log(resp.data.contacts_ids.join(" "))
+      const contacts = [];
+      for(let id in resp.data.contacts) {
+        contacts.push(resp.data.contacts[id])
+      }
+      dispatch(getContactsSuccess(contacts))
     } catch(error) {
       dispatch(getContactsFailure())
     }

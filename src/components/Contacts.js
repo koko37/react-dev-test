@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Row, Col, Spinner } from 'react-bootstrap'
+import { createSelector } from 'reselect'
+
 import ContactsModal from './ContactsModal'
 import CustomScrollbars from './CustomScrollbars'
 
@@ -8,8 +9,10 @@ import { updateCountry, updatePageNo } from '../actions/filterActions'
 import { fetchContacts } from '../actions/contactsAction'
 
 const mapStateToProps = (state) => ({
-  filterState: state.filter,
-  contactsState: state.contacts
+  contactsState: state.contacts,
+  pageNo: state.filter.pageNo,
+  searchKeyword: state.filter.searchKeyword,
+  onlyEven: state.filter.isOnlyEven
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -18,44 +21,54 @@ const mapDispatchToProps = (dispatch) => ({
   fetchData: (countryId, searchKey, pageNo) => dispatch(fetchContacts(countryId, searchKey, pageNo))
 })
 
-const Contacts = ({countryId, title, showModal, contactsState, filterState, selectActiveContact, fetchData, setCountry, setPage}) => {
+const Contacts = ({countryId, title, showContacts, 
+  pageNo, searchKeyword, onlyEven,
+  contactsState, 
+  selectActiveContact, 
+  fetchData, setCountry, setPage}) => {
+  
   useEffect(() => {
     setCountry(countryId)
-    fetchData(countryId, filterState.searchKeyword, filterState.page)
-  }, [])
+    }, [])
+  
+  useEffect(() => {
+    fetchData(countryId, searchKeyword, pageNo)
+  }, [countryId, searchKeyword, pageNo])
 
   // callback being invoked when scroll reached to the bottom
   const onReachedToBottom = () => {
-    // setPage(page ++)
+    setPage(pageNo+1)
   }
   
+  var data = []
+  if(onlyEven) {
+    data = contactsState.data.filter(contact => contact.id % 2 === 0)
+  } else {
+    data = contactsState.data
+  }
+
   return (
-/*
-    <ContactsModal title={title} isOpen={true}>
-      {!contactsState.loading && !contactsState.hasErrors && (
+    <ContactsModal title={title} isOpen={showContacts} isLoading={contactsState.loading}>
+      {!contactsState.hasErrors && (
         <CustomScrollbars onReachedBottom={onReachedToBottom} style={{height: 300}}>
-          { contactsState.data.map( (contact) => 
-            (<p key={contact.id}>{contact.first_name} {contact.last_name} {contact.email}</p>))}
+          { data.map( (contact, id) => 
+          ( <div key={id} className="d-flex" onClick={() => selectActiveContact(contact)} >
+              <p className="mr-3">{contact.id}</p>
+              <p className="mr-3"><strong>{contact.first_name} {contact.last_name}</strong></p>
+              <p className="mr-3">{contact.email}</p>
+              <p>{contact.phone_number}</p>
+          </div> ))}
         </CustomScrollbars>
-      )}
-      {contactsState.loading && (
-        <center>
-          <Spinner animation="border" role="status">
-            <span className="sr-only">Loading...</span>
-          </Spinner>
-        </center>
-        
       )}
       {contactsState.hasErrors && (
         "Error!"
       )}
     </ContactsModal>
-    */
-
-    <ContactsModal title={title} isOpen={showModal}>
+/*
+    <ContactsModal title={title} isOpen={showContacts}>
       <CustomScrollbars onReachedBottom={onReachedToBottom} style={{height: 300}}>
-        { contactsState.data.map( (contact) => 
-          ( <div key={contact.id} className="d-flex justify-content-between">
+        { contactsState.data.map( (contact, id) => 
+          ( <div key={id} className="d-flex justify-content-between">
               <p>{contact.id}</p>
               <p onClick={() => selectActiveContact(contact)}><strong>{contact.first_name} {contact.last_name}</strong></p>
               <p>{contact.email}</p>
@@ -63,6 +76,7 @@ const Contacts = ({countryId, title, showModal, contactsState, filterState, sele
           </div> ))}
       </CustomScrollbars>
     </ContactsModal>
+*/    
     )
 }
 
