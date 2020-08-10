@@ -18,6 +18,25 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, isLoading=false, updateSearch, updateOnlyEvenFilter, children}) => {
+  var timerId = null
+  const onHandleKeydown = (e) => {
+    if(e.keyCode === 13) {
+      if(e.target.value !== '') {
+        if(timerId != null) clearTimeout(timerId)    
+        updateSearch(e.target.value)
+      }
+      e.preventDefault()
+    }
+  }
+
+  const onHandleChange = (e) => {
+    if(timerId != null) clearTimeout(timerId)
+    const inputValue = e.target.value
+    timerId = setTimeout(() => {
+      updateSearch(inputValue)
+    }, 200)
+  }
+
   return (
     <Modal show={isOpen} size="lg" backdrop="static" onHide={null} centered>
       <Modal.Header className="d-flex justify-content-between align-items-center">
@@ -25,7 +44,7 @@ const ContactsModal = ({title, isOpen, searchKeyword, isOnlyEven, isLoading=fals
           {title}
         </Modal.Title>
         <Form>
-          <Form.Control type="text" placeholder="Search contacts" value={searchKeyword} onChange={(e) => updateSearch(e.target.value)}/>
+          <Form.Control type="text" placeholder="Search contacts" value={searchKeyword} onKeyDown={onHandleKeydown} onChange={onHandleChange}/>
         </Form>
       </Modal.Header>
       <Modal.Body>
