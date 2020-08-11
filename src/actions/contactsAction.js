@@ -16,7 +16,6 @@ export const resetContacts = () => ({type: RESET_CONTACTS})
 export function fetchContacts(countryId, queryStr, pageNo) {
   return async dispatch => {
     if(pageNo === 1) dispatch(resetContacts())
-
     dispatch(getContacts())
 
     const params = {
