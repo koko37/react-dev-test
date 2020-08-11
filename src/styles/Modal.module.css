@@ -9,7 +9,8 @@
 }
 
 .buttonC {
-  background-color: #fff;
-  border-color: #46139f;
+  background-color: #fff!important;
+  border-color: #46139f!important;
+  color: #46139f!important;
   margin-left: 0.5rem!important;
 }
