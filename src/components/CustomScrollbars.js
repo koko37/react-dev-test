@@ -8,7 +8,7 @@ const CustomScrollbars = ({children, onReachedBottom, ...props}) => {
     const pad = 100
     const t = ((scrollTop + pad) / (scrollHeight - clientHeight))
     if (t > 1) {
-      setReachedBottom(true) 
+      if(scrollTop !== 0) setReachedBottom(true) 
     } else {
       setReachedBottom(false)
     }
@@ -18,7 +18,7 @@ const CustomScrollbars = ({children, onReachedBottom, ...props}) => {
     if(reachedBottom === true) {
       onReachedBottom()
     }
-  }, [reachedBottom])
+  }, [reachedBottom, onReachedBottom])
 
   return (
     <Scrollbars style={props.style} onUpdate={handleUpdate}>

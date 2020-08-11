@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 import ContactsModal from './ContactsModal'
 import CustomScrollbars from './CustomScrollbars'
-import { updateCountry, updatePageNo } from '../actions/filterActions'
+import { updateCountry, incrementPageNo } from '../actions/filterActions'
 import { fetchContacts } from '../actions/contactsAction'
 
 const getContacts = (state) => state.contacts.data
@@ -27,7 +27,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setCountry: (countryId) => dispatch(updateCountry(countryId)),
-  setPage: (pageNo) => dispatch(updatePageNo(pageNo)),
+  nextPage: () => dispatch(incrementPageNo()),
   fetchData: (countryId, searchKey, pageNo) => dispatch(fetchContacts(countryId, searchKey, pageNo))
 })
 
@@ -35,7 +35,7 @@ const Contacts = ({countryId, title, showContacts,
   pageNo, searchKeyword, contactsData,
   loading, hasErrors,
   selectActiveContact, 
-  fetchData, setCountry, setPage}) => {
+  fetchData, setCountry, nextPage}) => {
   
   const setCountryCallback = useCallback(() => setCountry(countryId), [countryId, setCountry])
   useEffect(() => {
@@ -48,8 +48,8 @@ const Contacts = ({countryId, title, showContacts,
 
   // callback being invoked when scroll reached to the bottom
   const onReachedToBottom = useCallback(() => {
-    setPage(pageNo+1)
-  }, [setPage, pageNo])
+    nextPage()
+  }, [nextPage])
 
   return (
     <ContactsModal title={title} isOpen={showContacts} isLoading={loading}>

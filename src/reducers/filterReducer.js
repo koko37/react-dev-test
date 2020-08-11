@@ -27,7 +27,13 @@ export default function filterReducer(state = initialState, action) {
         ...state,
         pageNo: action.payload
       }
-    
+      
+    case constants.INCREMENT_PAGE_NO:
+      return {
+        ...state,
+        pageNo: state.pageNo + 1
+      }
+
     case constants.UPDATE_COUNTRY:
       return {
         ...state,
