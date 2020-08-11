@@ -47,9 +47,9 @@ const Contacts = ({countryId, title, showContacts,
   }, [countryId, searchKeyword, pageNo, fetchData])
 
   // callback being invoked when scroll reached to the bottom
-  const onReachedToBottom = () => {
+  const onReachedToBottom = useCallback(() => {
     setPage(pageNo+1)
-  }
+  }, [setPage, pageNo])
 
   return (
     <ContactsModal title={title} isOpen={showContacts} isLoading={loading}>
