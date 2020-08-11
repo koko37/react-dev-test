@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { connect } from 'react-redux'
 import { createSelector } from 'reselect'
 import ContactsModal from './ContactsModal'
@@ -37,9 +37,10 @@ const Contacts = ({countryId, title, showContacts,
   selectActiveContact, 
   fetchData, setCountry, setPage}) => {
   
+  const setCountryCallback = useCallback(() => setCountry(countryId), [countryId, setCountry])
   useEffect(() => {
-    setCountry(countryId)
-    }, [])
+    setCountryCallback()
+  }, [setCountryCallback])
   
   useEffect(() => {
     fetchData(countryId, searchKeyword, pageNo)
