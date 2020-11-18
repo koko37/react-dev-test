@@ -23,6 +23,7 @@ In Modal B should be displayed (from API) contacts only from US.
 Clicking on the contact items in modals should open a next modal (Modal C) with few contact details, no matter what.
 
 Opening Modals A and B should change the URL of the page.
+
 Opening Modal C should NOT change the URL.
 
 Button A and Modal Button A should have a color: #46139f
@@ -47,11 +48,8 @@ Lists of contacts should display only the first page (API param, page=1) after s
 
 ### Contacts API
 GET https://api.dev.pastorsline.com/api/contacts.json
-
 Authorization via header:
-
 Authorization: Bearer xyzxyz
-
 CORS is allowing only pages at http://127.0.0.1:30080
 
 Params:
