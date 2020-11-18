@@ -27,7 +27,9 @@ Opening Modals A and B should change the URL of the page.
 Opening Modal C should NOT change the URL.
 
 Button A and Modal Button A should have a color: #46139f
+
 Button B and Modal Button B should have a color: #ff7f50
+
 Button C should have a white background and border #46139f (same as the background of Button A)
 
 Modals A and B should have a search box to filter contacts (use API param). Contacts should be filtered while typing in a search input (with a small delay) and immediately on hitting the Enter key.
